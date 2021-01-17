@@ -1,0 +1,104 @@
+$reel-symbol-height: 121px;
+$reel-symbol-length: 10;
+$reel-symbols-in-view: 3;
+$win-reel-color: #f0506e;
+
+$reel-offset: $reel-symbol-height * $reel-symbol-length;
+
+.reel-1 .reel-spinning,
+.reel-1 .reel-spin-stop {
+  animation-delay: 0s;
+}
+
+.reel-2 .reel-spinning,
+.reel-2 .reel-spin-stop {
+  animation-delay: 0.2s;
+}
+
+.reel-3 .reel-spinning ,
+.reel-3 .reel-spin-stop{
+  animation-delay: 0.4s;
+}
+
+.reel {
+  position: relative;
+  height: $reel-symbol-height * $reel-symbols-in-view;
+  overflow-y: hidden;
+
+  .reel-visible {
+    transform: translateY($reel-offset * -1);
+    transition: 0.4s;
+  }
+
+  .reel-symbol {
+    height: $reel-symbol-height;
+
+    &.reel-symbol--active {
+      background: $win-reel-color;
+    }
+
+    .reel-symbol img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.blink--win {
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: backwards;
+  animation-timing-function: ease-in;
+}
+
+@keyframes blink {
+  from {
+    background-color: initial;
+  }
+  50% {
+    background-color: $win-reel-color;
+  }
+  to {
+    background-color: initial;
+  }
+}
+
+.reel-spinning {
+  animation-name: reel-spinning;
+  animation-duration: 0.2s;
+  animation-iteration-count: 10;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.18, 1.01, 0.36, 1.01);
+}
+
+.reel-spin-stop {
+  animation-name: reel-spin-stop;
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.87, 1.41, 0.56, 1.24);
+}
+
+@keyframes reel-spinning {
+  from {
+    transform: translateY($reel-offset * -1);
+  }
+  25% {
+    transform: translateY($reel-symbol-height * -5);
+  }
+  75% {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY($reel-offset * -1 + $reel-symbol-height);;
+  }
+}
+
+@keyframes reel-spin-stop {
+  from {
+    transform: translateY($reel-offset * -1 + $reel-symbol-height);
+  }
+  to {
+    transform: translateY($reel-offset * -1);;
+  }
+}
+
